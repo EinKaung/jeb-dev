@@ -1,0 +1,35 @@
+# helm install postgres ./helm/postgresql --namespace jeb-dev --create-namespace \
+#   --set auth.password='...'
+
+replicaCount: 1
+
+# Keeps StatefulSet, Service, and Secret names aligned with k8s/postgresql.
+fullnameOverride: postgres
+
+image:
+  repository: postgres
+  tag: "18.6"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5432
+
+auth:
+  username: einkaung
+  # Required unless existingSecret is set. Do not commit a real password.
+  password: ""
+  database: jeb_dev_db
+  # Use a pre-created Secret instead of rendering one.
+  # Expected keys: POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB.
+  existingSecret: ""
+
+persistence:
+  volumeName: postgres-storage
+  mountPath: /var/lib/postgresql
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  # Empty uses the cluster default StorageClass.
+  storageClass: ""
+
+resources: {}

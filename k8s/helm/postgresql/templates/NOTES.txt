@@ -1,0 +1,7 @@
+PostgreSQL is available in namespace {{ .Release.Namespace }}.
+
+In-cluster host: {{ include "postgresql.fullname" . }}.{{ .Release.Namespace }}.svc
+Port: {{ .Values.service.port }}
+Database: {{ .Values.auth.database }}
+User: {{ .Values.auth.username }}
+Secret: {{ include "postgresql.secretName" . }}
