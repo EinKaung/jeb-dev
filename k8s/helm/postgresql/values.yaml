@@ -15,6 +15,11 @@ service:
   type: ClusterIP
   port: 5432
 
+nodeAffinity:
+  key: node-role
+  operator: In
+  value: db
+
 auth:
   username: einkaung
   # Required unless existingSecret is set. Do not commit a real password.
